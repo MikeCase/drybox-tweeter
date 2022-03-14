@@ -24,11 +24,13 @@ sht = gc.open_by_key(SS_KEY).sheet1
 
 while True:
     last_row = sht.get_all_values()[-1]
+    dt = datetime.datetime.strptime(last_row[2], "%Y-%m-%d %H:%M:%S.%f")
+    tstamp = dt.strftime('%a, %b %d %Y @ %I:%M %p')
     try:
         tw_api.verify_credentials()
         print("Authentication OK")
         # tw_api.update_status("Test")
-        tw_api.update_status(f"3D Printer Filament Drybox\n\nRelative Humidity: {last_row[0]}%\nTemperature: {last_row[1]}\nLast Update: {last_row[2]}")
+        print(f"3D Printer Filament Drybox\n\nRelative Humidity: {last_row[0]}%\nTemperature: {last_row[1]}\nLast Update: {tstamp}")
     except:
         print("Error during authentication")
 
